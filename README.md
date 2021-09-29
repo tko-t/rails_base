@@ -1,12 +1,13 @@
-# rails環境をササっと作りたいときに
+### rails環境をササっと作りたいときに
 
-## 環境
-> ruby:3.0-alpine
-rails:latest
-db:mysql5.7
+### 環境
+
+> ruby:3.0-alpine  
+> rails:latest  
+> db:mysql5.7
 
 
-## 使い方
+### 使い方
 
 ```sh
 $ git clone git@github.com:tko-t/rails_base.git app_name
