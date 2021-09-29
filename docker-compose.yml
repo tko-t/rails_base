@@ -1,0 +1,41 @@
+version: "3.9"
+services:
+  db:
+    image: mysql:5.7
+    container_name: "${APP_NAME}_db"
+    environment:
+#      MYSQL_USER: "${MYSQL_USER}"
+#      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-}"
+      MYSQL_DATABASE: "${APP_NAME}_${RAILS_ENV:-development}"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+  api:
+    build:
+      context: .
+      args:
+        - "APP_NAME=${APP_NAME}"
+        - "WORKDIR=${WORKDIR:-/$APP_NAME}"
+        - "USER=${USER:-root}"
+        - "USER_ID=${USER_ID:-0}"
+        - "GROUP=${GROUP:-root}"
+        - "GROUP_ID=${GROUP_ID:-0}"
+    user: "${USER_ID:-0}:${GROUP_ID:-0}"
+    container_name: "${APP_NAME}_api"
+    # 1. bundle install
+    # 2. mysqlの起動待ち
+    # 3. db:migrate
+    # 4. rails server
+    command: /bin/sh -c "rm -f tmp/pids/server.pid && rails s -b 0.0.0.0 -p 3000"
+    environment:
+      RAILS_ENV: "${RAILS_ENV:-development}"
+#      MYSQL_USER: ${MYSQL_USER}
+#      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ".:${WORKDIR:-/$APP_NAME}"
+    ports:
+      - "${API_PORT:-3000}:3000"
+    depends_on:
+      - db
+
+  redis:
+     image: redis
+     command: redis-server
