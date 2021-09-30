@@ -11,7 +11,7 @@ services:
       context: .
       args:
         - "APP_NAME=${APP_NAME}"
-        - "WORKDIR=${WORKDIR:-/$APP_NAME}"
+        - "WORKDIR=/${APP_NAME}"
         - "USER=${USER:-root}"
         - "USER_ID=${USER_ID:-0}"
         - "GROUP=${GROUP:-root}"
@@ -22,7 +22,7 @@ services:
     environment:
       RAILS_ENV: "${RAILS_ENV:-development}"
     volumes:
-      - ".:${WORKDIR:-/$APP_NAME}"
+      - ".:/${APP_NAME}"
     ports:
       - "${API_PORT:-3000}:3000"
     depends_on:

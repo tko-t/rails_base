@@ -7,7 +7,7 @@ ENV TZ=Asia/Tokyo
 # nobodyだと動かないかも
 # デフォルト引数いらんかな
 ARG APP_NAME
-ARG WORKDIR=/$APP_NAME
+ARG WORKDIR
 ARG USER=nobody
 ARG USER_ID=65534
 ARG GROUP=nobody
