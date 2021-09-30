@@ -2,9 +2,9 @@
 
 ### 確認済みの動作環境
 
-> os: Microsoft Windows 10 Pro
-> version: 10.0.19043
-> WSL2: Ubuntu 20.04.1 LTS
+> os: Microsoft Windows 10 Pro  
+> version: 10.0.19043  
+> WSL2: Ubuntu 20.04.1 LTS  
 > Docker: 20.10.8, build 3967b7d
 
 ### コンテナ環境
