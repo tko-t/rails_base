@@ -17,7 +17,7 @@ $ cd app_name
 $ vi .env
 => 自分の環境に合わせて編集。特にUSERとGROUP
 
-$ docker-compose run api rails new . --force -d mysql --skip-action-mailbox --skip-active-storage --skip-action-cable -S --skip-spring --skip-system-test --skip-bootsnap --skip-webpack-install --api
+$ docker-compose run api rails new . --force -d mysql --skip-action-mailbox --skip-active-storage --skip-action-cable -S --skip-spring --skip-system-test --skip-bundle --skip-bootsnap --skip-webpack-install --api
 => mysqlは固定。他のオプションはお好きに。
 
 $ rm -rf .git*
