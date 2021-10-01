@@ -9,7 +9,9 @@ run:
 	make up
 set:
 	sed -i "s/USER=.*/USER=${USER}/" .env
+	sed -i "s/USER_ID=.*/USER_ID=${UID}/" .env
 	sed -i "s/GROUP=.*/GROUP=${USER}/" .env
+	sed -i "s/GROUP_ID=.*/GROUP_ID=${GID}/" .env
 	sed -i "s/APP_NAME=.*/APP_NAME=${curdir}/" .env
 build:
 	docker-compose run api rails new . --force -d mysql --skip-action-mailbox --skip-active-storage --skip-action-cable -S --skip-spring --skip-system-test --skip-bundle --skip-bootsnap --skip-webpack-install --api
