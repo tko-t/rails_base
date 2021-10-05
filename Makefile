@@ -34,5 +34,13 @@ up:
 	docker-compose up -d
 down:
 	docker-compose down
+mysql:
+	docker-compose exec db mysql -u root -p ${curdir}_development
+docker_image_clean:
+	docker images --format "{{.Repository}}" | grep ${curdir} | xargs docker rmi
+docker_stop_all:
+	docker container ls -a --format {{.Image}} --filter name=${curdir} | xargs docker stop
+docker_prune:
+	docker system prune -f
 docker_containers:
 	docker container ls -a --format "table {{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"
