@@ -39,7 +39,7 @@ mysql:
 docker_image_clean:
 	docker images --format "{{.Repository}}" | grep ${curdir} | xargs docker rmi
 docker_stop_all:
-	docker container ls -a --format {{.Image}} --filter name=${curdir} | xargs docker stop
+	docker ps --format {{.Names}} --filter name=${curdir} | xargs docker stop
 docker_prune:
 	docker system prune -f
 docker_containers:
