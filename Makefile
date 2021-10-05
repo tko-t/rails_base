@@ -7,7 +7,9 @@ gid := $(shell id -g)
 
 run:
 	make set
-	make build
+	make build  # default Gemfile(rails) install
+	make rails_new
+	make build  # app Gemfile install
 	make db_create
 	make git_clean
 	make up
@@ -17,16 +19,20 @@ set:
 	sed -i "s/GROUP=.*/GROUP=${group}/" .env
 	sed -i "s/GROUP_ID=.*/GROUP_ID=${gid}/" .env
 	sed -i "s/APP_NAME=.*/APP_NAME=${curdir}/" .env
-build:
+rails_new:
 	docker-compose run app rails new . --force -d mysql --skip-action-mailbox --skip-active-storage --skip-action-cable -S --skip-spring --skip-system-test --skip-bundle --skip-bootsnap --skip-webpack-install --api
-	docker-compose build
 db_create:
 	sed -ie "s/host: localhost/host: db/" config/database.yml
+	docker-compose run app ruby bin/await_db_connection.rb # db起動待ち
 	docker-compose run app rails db:create
 git_clean:
 	rm -rf .git*
 	git init
+build:
+	docker-compose build
 up:
 	docker-compose up -d
+down:
+	docker-compose down
 docker_containers:
 	docker container ls -a --format "table {{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"
