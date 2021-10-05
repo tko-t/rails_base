@@ -28,3 +28,5 @@ git_clean:
 	git init
 up:
 	docker-compose up -d
+docker_containers:
+	docker container ls -a --format "table {{.ID}}\t{{.Image}}\t{{.Status}}\t{{.Ports}}"
