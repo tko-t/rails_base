@@ -18,6 +18,7 @@ RUN apk update && \
     apk add --no-cache \
         g++ \
         gcc \
+        git \
         libc-dev \
         libxml2-dev \
         linux-headers \
