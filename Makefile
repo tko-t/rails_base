@@ -6,12 +6,12 @@ group := $(shell id -ng)
 gid := $(shell id -g)
 
 run:
+	make git_clean
 	make set
 	make build  # default Gemfile(rails) install
 	make rails_new
 	make build  # app Gemfile install
 	make db_create
-	make git_clean
 	make up
 set:
 	sed -i "s/USER=.*/USER=${user}/" .env
@@ -27,7 +27,6 @@ db_create:
 	docker-compose run app rails db:create
 git_clean:
 	rm -rf .git*
-	git init
 build:
 	docker-compose build
 up:
