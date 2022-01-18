@@ -9,7 +9,7 @@
 
 ### コンテナ環境
 
-> ruby:3.0-alpine  
+> ruby:3.1-alpine  
 > rails:latest  
 > db:mysql:8
 
