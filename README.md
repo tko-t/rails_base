@@ -9,7 +9,7 @@
 
 ### コンテナ環境
 
-> ruby:3.1-alpine  
+> ruby:3.1-alpine or debian(slim) 
 > rails:latest  
 > db:mysql:8
 
@@ -20,6 +20,7 @@ $ mkdir app_name && $_
 $ git clone git@github.com:tko-t/rails_base.git .
 $ vi .env
 => 自分の環境に合わせて編集。特にUSERとGROUPとAPP_PORT
+   Dockerfile.debian使うならDIST=debianに
 
 $ docker-compose build
 $ docker-compose run app rails new . --force -d mysql --skip-action-mailbox --skip-active-storage --skip-action-cable -S --skip-spring --skip-system-test --skip-bundle --skip-bootsnap --skip-webpack-install --api
@@ -41,7 +42,8 @@ $ mkdir app_name && $_
 $ git clone git@github.com:tko-t/rails_base.git .
 $ make
 
-"ユーザー名とアプリケーション名を実行環境から適当に拾って作ります。
+" ユーザー名とアプリケーション名を実行環境から拾って作ります
+" APP_PORTとDISTだけは手動で
 ```
 
 http://localhost:$APP_PORT}/ にアクセス
