@@ -1,4 +1,16 @@
-FROM ruby:3.1-alpine
+FROM ruby:3.1-slim as jemalloc
+RUN apt-get update -qq && apt-get install -y --no-install-recommends \
+    build-essential \
+    wget \
+    && wget -O - https://github.com/jemalloc/jemalloc/releases/download/5.2.1/jemalloc-5.2.1.tar.bz2 | tar -xj \
+    && cd jemalloc-5.2.1 \
+    && ./configure \
+    && make \
+    && make install
+
+FROM ruby:3.1-slim
+
+COPY --from=jemalloc /usr/local/lib/libjemalloc.so.2 /usr/local/lib/
 
 ENV LANG=C.UTF-8
 ENV TZ=Asia/Tokyo
@@ -13,34 +25,37 @@ ARG USER_ID=65534
 ARG GROUP=nobody
 ARG GROUP_ID=65534
 
-RUN apk update && \
-    apk upgrade && \
-    apk add --no-cache \
-        g++ \
-        gcc \
-        git \
-        libc-dev \
-        libxml2-dev \
-        linux-headers \
-        make \
-        mariadb-dev \
-        nodejs \
-        tzdata \
-        yarn && \
-    apk add --virtual build-packs --no-cache \
-        build-base \
-        curl-dev && \
-    apk del build-packs
+RUN apt-get update -qq && apt-get install -y --no-install-recommends \
+    build-essential \
+    curl \
+    default-libmysqlclient-dev \
+    default-mysql-client \
+    fontconfig \
+    git \
+    graphviz \
+    jq \
+    less \
+    openssl \
+    tzdata \
+    unzip \
+    vim \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    && truncate -s 0 /var/log/*log \
+    && cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime \
+    && echo "Asia/Tokyo" > /etc/timezone
 
 WORKDIR $WORKDIR
 
 # railsだけ。rails new で上書き
-ADD ./Gemfile $WORKDIR/Gemfile
-ADD ./Gemfile.lock $WORKDIR/Gemfile.lock
+ADD ./ $WORKDIR
+#ADD ./Gemfile* $WORKDIR
+#ADD ./Gemfile.lock $WORKDIR/Gemfile.lock
 
 # ローカル環境のIDと合わせたらいいと思う
-RUN addgroup -S -g $GROUP_ID $GROUP && \
-    adduser -u $USER_ID -G $USER -D $USER
+RUN groupadd --gid $GROUP_ID --system $USER \
+    && useradd --uid $USER_ID --gid $GROUP_ID --system --create-home $USER \
+    && chown -R $USER:$GROUP $WORKDIR
 
 RUN chown $USER:$GROUP $WORKDIR/*
 
@@ -48,6 +63,4 @@ USER $USER
 
 RUN bundle install
 
-ADD ./ $WORKDIR
-
-# docker-composeで使うことしか考えてないからCMDなし
+# docker-composeで使うからCMDなし
