@@ -20,7 +20,7 @@ set:
 	sed -i "s/GROUP_ID=.*/GROUP_ID=${gid}/" .env
 	sed -i "s/APP_NAME=.*/APP_NAME=${curdir}/" .env
 rails_new:
-	docker-compose run app rails new . --force -d mysql --skip-action-mailbox --skip-active-storage --skip-action-cable -S --skip-spring --skip-system-test --skip-bundle --skip-bootsnap --skip-webpack-install --api
+	docker-compose run app rails new . --force -d mysql --skip-action-mailbox --skip-active-storage --skip-action-cable -S --skip-spring --skip-test --skip-bundle --skip-bootsnap --skip-webpack-install --api
 db_create:
 	sed -ie "s/host: localhost/host: db/" config/database.yml
 	docker-compose run app ruby bin/await_db_connection.rb # db起動待ち
