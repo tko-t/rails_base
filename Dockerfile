@@ -16,14 +16,12 @@ ENV LANG=C.UTF-8
 ENV TZ=Asia/Tokyo
 
 # 引数
-# nobodyだと動かないかも
-# デフォルト引数いらんかな
 ARG APP_NAME
 ARG WORKDIR
-ARG USER=nobody
-ARG USER_ID=65534
-ARG GROUP=nobody
-ARG GROUP_ID=65534
+ARG USER
+ARG USER_ID
+ARG GROUP
+ARG GROUP_ID
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     build-essential \

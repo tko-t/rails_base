@@ -14,10 +14,10 @@ run:
 	make db_create
 	make up
 set:
-	sed -i "s/USER=.*/USER=${user}/" .env
-	sed -i "s/USER_ID=.*/USER_ID=${uid}/" .env
-	sed -i "s/GROUP=.*/GROUP=${group}/" .env
-	sed -i "s/GROUP_ID=.*/GROUP_ID=${gid}/" .env
+	sed -i "s/APP_USER=.*/APP_USER=${user}/" .env
+	sed -i "s/APP_USER_ID=.*/APP_USER_ID=${uid}/" .env
+	sed -i "s/APP_GROUP=.*/APP_GROUP=${group}/" .env
+	sed -i "s/APP_GROUP_ID=.*/APP_GROUP_ID=${gid}/" .env
 	sed -i "s/APP_NAME=.*/APP_NAME=${curdir}/" .env
 rails_new:
 	docker-compose run app rails new . --force -d mysql --skip-action-mailbox --skip-active-storage --skip-action-cable -S --skip-spring --skip-test --skip-bundle --skip-bootsnap --skip-webpack-install --api
