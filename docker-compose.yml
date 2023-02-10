@@ -21,7 +21,7 @@ services:
         - "USER_ID=${APP_USER_ID:-0}"
         - "GROUP=${APP_GROUP:-${USER}}"
         - "GROUP_ID=${APP_GROUP_ID:-0}"
-    user: "${USER_ID:-0}:${GROUP_ID:-0}"
+    user: "${APP_USER_ID:-0}:${APP_GROUP_ID:-0}"
     container_name: "${APP_NAME}_app"
     command: /bin/sh -c "rm -f tmp/pids/server.pid && rails s -b 0.0.0.0 -p 3000"
     environment:
