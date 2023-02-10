@@ -23,6 +23,11 @@ ARG USER_ID
 ARG GROUP
 ARG GROUP_ID
 
+ENV USER=$USER
+ENV USER_ID=$USER_ID
+ENV GROUP=$GROUP
+ENV GROUP_ID=$GROUP_ID
+
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     build-essential \
     curl \
