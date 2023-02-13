@@ -12,14 +12,16 @@ services:
       - mysql_data:/var/lib/mysql
       - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
   app:
+    stdin_open: true
+    tty: true
     build:
       context: .
       args:
         - "APP_NAME=${APP_NAME}"
         - "WORKDIR=/${APP_NAME}"
-        - "USER=${APP_USER:-${USER}}"
+        - "USER=${APP_USER:-${APP_NAME}}"
         - "USER_ID=${APP_USER_ID:-0}"
-        - "GROUP=${APP_GROUP:-${USER}}"
+        - "GROUP=${APP_GROUP:-${APP_NAME}}"
         - "GROUP_ID=${APP_GROUP_ID:-0}"
     user: "${APP_USER_ID:-0}:${APP_GROUP_ID:-0}"
     container_name: "${APP_NAME}_app"
