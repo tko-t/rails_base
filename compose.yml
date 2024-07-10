@@ -1,6 +1,3 @@
-version: "3.9"
-volumes:
-  mysql_data:
 services:
   db:
     image: mysql:8
@@ -16,6 +13,7 @@ services:
     tty: true
     build:
       context: .
+      dockerfile: Dockerfile.dev
       args:
         - "APP_NAME=${APP_NAME}"
         - "WORKDIR=/${APP_NAME}"
@@ -38,3 +36,6 @@ services:
   redis:
      image: redis
      command: redis-server
+
+volumes:
+  mysql_data:
